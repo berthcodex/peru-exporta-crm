@@ -1,17 +1,17 @@
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:46px;border-bottom:1px solid var(--border);background:var(--bg-card);flex-shrink:0;box-shadow:var(--sh-xs)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:48px;border-bottom:1px solid var(--border);background:var(--bg-card);flex-shrink:0;box-shadow:var(--sh-xs)}
 .left{display:flex;align-items:center;gap:6px}
 .breadcrumb{display:flex;align-items:center;gap:5px;font-size:12px}
 .bcMuted{color:var(--text-hint)}
 .bcSep{color:var(--border-hover)}
-.bcActive{color:var(--text);font-weight:600}
+.bcActive{color:var(--text);font-weight:700;letter-spacing:-0.2px}
 .right{display:flex;align-items:center;gap:8px}
-.urgBadge{font-size:11px;font-weight:600;color:var(--orange);background:var(--orange-light);border:1px solid var(--orange-border);border-radius:20px;padding:3px 10px;animation:pulse 2s infinite;white-space:nowrap}
-.refreshBtn{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg-hover);font-size:11px;font-weight:500;color:var(--text-muted);transition:all 0.15s;white-space:nowrap}
+.urgBadge{font-size:11px;font-weight:700;color:var(--orange);background:var(--orange-light);border:1px solid var(--orange-border);border-radius:20px;padding:4px 11px;animation:pulse 2s infinite;white-space:nowrap;letter-spacing:0.1px}
+.refreshBtn{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg-hover);font-size:11px;font-weight:600;color:var(--text-muted);transition:all 0.15s;white-space:nowrap}
 .refreshBtn:hover{border-color:var(--border-hover);color:var(--text);background:var(--bg-card)}
-.hora{font-size:11px;color:var(--text-hint);font-variant-numeric:tabular-nums}
+.hora{font-size:11px;color:var(--text-hint);font-variant-numeric:tabular-nums;font-weight:500}
 @media(max-width:768px){
-  .topbar{padding:0 12px;height:42px}
-  .hora{display:none}
-  .bcMuted,.bcSep{display:none}
+  .topbar{padding:0 12px;height:44px}
+  .hora,.bcMuted,.bcSep{display:none}
   .refreshBtn span{display:none}
+  .refreshBtn{padding:6px 10px}
 }
