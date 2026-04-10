@@ -66,33 +66,14 @@ export function fmtMin(min) {
   return m > 0 ? `${h}h ${m}m` : `${h}h`
 }
 
-// Normaliza estados para evitar bugs de tildes/espacios
+// Normaliza solo variantes de tildes
 function normalizarEstado(estado) {
   if (!estado) return 'esperando'
-  const e = estado.trim().toLowerCase()
-  // Mapeo explícito de todos los estados posibles
-  const mapa = {
-    'esperando': 'esperando',
-    'acumulando': 'acumulando',
-    'procesando': 'acumulando',
-    'clasificando': 'acumulando',
-    'reactivado': 'reactivado',
-    'reactivado2': 'reactivado2',
-    'revisar manual': 'revisar manual',
-    'pendiente llamar': 'pendiente llamar',
-    'no contestó': 'no contestó',
-    'no contesto': 'no contestó',
-    'no contestó': 'no contestó',
-    'agendado': 'agendado',
-    'material enviado': 'material enviado',
-    'pendiente boucher': 'material enviado',
-    'boucher recibido': 'material enviado',
-    'cerrado': 'cerrado',
-    'frío': 'cerrado',
-    'frio': 'cerrado',
-  }
-  return mapa[e] || e
+  const e = estado.trim()
+  if (e === 'no contesto' || e === 'No contesto') return 'no contestó'
+  return e
 }
+
 
 export function processLeads(raw) {
   return raw.map(l => {
