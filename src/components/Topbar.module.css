@@ -1,42 +1,11 @@
-.topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px; height: 44px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-card); flex-shrink: 0;
-}
-.left { display: flex; align-items: center; gap: 6px; }
-.breadcrumb { display: flex; align-items: center; gap: 5px; font-size: 12px; }
-.bc-muted { color: var(--text-hint); }
-.bc-sep { color: var(--border-hover); }
-.bc-active { color: var(--text); font-weight: 600; }
-.right { display: flex; align-items: center; gap: 8px; }
-.urgBadge {
-  font-size: 11px; font-weight: 600; color: var(--orange);
-  background: var(--orange-light); border: 1px solid var(--orange-border);
-  border-radius: 20px; padding: 3px 10px;
-  animation: pulse 2s infinite;
-}
-.refreshBtn {
-  display: flex; align-items: center; gap: 5px;
-  padding: 5px 10px; border-radius: var(--radius-sm);
-  border: 1px solid var(--border); background: var(--bg);
-  font-size: 11px; font-weight: 500; color: var(--text-muted);
-  transition: all 0.15s; cursor: pointer;
-}
-.refreshBtn:hover { border-color: var(--border-hover); color: var(--text); }
-.hora { font-size: 11px; color: var(--text-hint); }
-.avatarBtn {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: none; cursor: pointer; font-size: 10px;
-  font-weight: 700; color: #fff; transition: opacity 0.15s;
-  display: flex; align-items: center; justify-content: center;
-}
-.avatarBtn:hover { opacity: 0.85; }
-.logoutBtn {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: var(--bg); border: 1px solid var(--border);
-  color: var(--text-hint); font-size: 13px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-}
-.logoutBtn:hover { border-color: var(--border-hover); color: var(--text); }
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:44px;border-bottom:1px solid var(--border);background:var(--bg-card);flex-shrink:0}
+.left{display:flex;align-items:center;gap:6px}
+.breadcrumb{display:flex;align-items:center;gap:5px;font-size:12px}
+.bcMuted{color:var(--text-hint)}
+.bcSep{color:var(--border-hover)}
+.bcActive{color:var(--text);font-weight:600}
+.right{display:flex;align-items:center;gap:8px}
+.urgBadge{font-size:11px;font-weight:600;color:var(--orange);background:var(--orange-light);border:1px solid var(--orange-border);border-radius:20px;padding:3px 10px;animation:pulse 2s infinite}
+.refreshBtn{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg);font-size:11px;font-weight:500;color:var(--text-muted);transition:all 0.15s}
+.refreshBtn:hover{border-color:var(--border-hover);color:var(--text)}
+.hora{font-size:11px;color:var(--text-hint)}

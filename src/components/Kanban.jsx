@@ -1,60 +1,63 @@
 import { useState } from 'react'
-import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
+import { DndContext, DragOverlay, PointerSensor, TouchSensor, useSensor, useSensors, useDroppable } from '@dnd-kit/core'
 import { COLS } from '../config'
 import LeadCard from './LeadCard'
 import styles from './Kanban.module.css'
 
-function SortableCard({ lead, onAction, acting }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: lead.phone })
+function DroppableCol({ col, leads, onAction, acting, isOver }) {
+  const { setNodeRef } = useDroppable({ id: col.id })
   return (
-    <div
-      ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0 : 1 }}
-      {...attributes}
-      {...listeners}
-    >
-      <LeadCard lead={lead} onAction={onAction} acting={acting} />
+    <div className={styles.col}>
+      <div className={styles.colHead} style={{ '--cc': col.color }}>
+        <div className={styles.colDot} style={{ background: col.color }} />
+        <span className={styles.colLabel}>{col.label}</span>
+        <span className={styles.colCount}>{leads.length}</span>
+      </div>
+      <div ref={setNodeRef} className={`${styles.colBody} ${isOver ? styles.colBodyOver : ''}`}>
+        {leads.length === 0
+          ? <div className={`${styles.colEmpty} ${isOver ? styles.colEmptyOver : ''}`}>
+              {isOver ? '↓ Soltar aquí' : 'Sin leads'}
+            </div>
+          : leads.map(lead => <LeadCard key={lead.phone} lead={lead} onAction={onAction} acting={acting} />)
+        }
+      </div>
     </div>
   )
 }
 
 export default function Kanban({ leads, onAction, onMover, acting }) {
   const [filtro, setFiltro] = useState('todos')
-  const [dragging, setDragging] = useState(null)
+  const [activeId, setActiveId] = useState(null)
+  const [overId, setOverId] = useState(null)
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 150, tolerance: 8 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 6 } })
   )
 
   const urgentes = leads.filter(l => l.urgente).length
   const alta = leads.filter(l => l.prioridad === 'ALTA').length
-  const tipoB = leads.filter(l => l.perfil && l.perfil.includes('B')).length
+  const tipoB = leads.filter(l => (l.perfil || '').includes('B')).length
 
   const filtrados = filtro === 'todos' ? leads
     : filtro === 'urgente' ? leads.filter(l => l.urgente)
     : filtro === 'alta' ? leads.filter(l => l.prioridad === 'ALTA')
-    : leads.filter(l => l.perfil && l.perfil.includes('B'))
+    : leads.filter(l => (l.perfil || '').includes('B'))
 
-  function handleDragStart(event) {
-    const lead = leads.find(l => l.phone === event.active.id)
-    setDragging(lead || null)
-  }
+  const activeLead = activeId ? leads.find(l => l.phone === activeId) : null
 
-  function handleDragEnd(event) {
-    const { active, over } = event
-    setDragging(null)
+  function handleDragStart({ active }) { setActiveId(active.id) }
+  function handleDragOver({ over }) { setOverId(over ? over.id : null) }
+
+  function handleDragEnd({ active, over }) {
+    setActiveId(null)
+    setOverId(null)
     if (!over) return
-
     const lead = leads.find(l => l.phone === active.id)
     if (!lead) return
-
-    // Detectar sobre qué columna cayó
-    const colTarget = COLS.find(c => c.id === over.id)
-    if (colTarget && !colTarget.estados.includes(lead.estado)) {
-      onMover(lead.phone, lead.fila, colTarget.estados[0])
+    const col = COLS.find(c => c.id === over.id)
+    if (col && !col.estados.includes(lead.estado)) {
+      onMover(lead.phone, lead.fila, col.estados[0])
     }
   }
 
@@ -68,49 +71,32 @@ export default function Kanban({ leads, onAction, onMover, acting }) {
           { id: 'alta', label: `⚡ Alta (${alta})` },
           { id: 'tipoB', label: `Tipo B (${tipoB})` },
         ].map(f => (
-          <button key={f.id} className={`${styles.fil} ${filtro === f.id ? styles.filActive : ''}`} onClick={() => setFiltro(f.id)}>
+          <button key={f.id} className={`${styles.fil} ${filtro===f.id?styles.filActive:''}`} onClick={() => setFiltro(f.id)}>
             {f.label}
           </button>
         ))}
       </div>
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <DndContext sensors={sensors} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
         <div className={styles.board}>
-          {COLS.map(col => {
-            const colLeads = filtrados.filter(l => col.estados.includes(l.estado))
-            return (
-              <div key={col.id} id={col.id} className={styles.col}>
-                <div className={styles.colHead} style={{ '--col-color': col.color }}>
-                  <div className={styles.colDot} style={{ background: col.color }} />
-                  <span className={styles.colLabel}>{col.label}</span>
-                  <span className={styles.colCount}>{colLeads.length}</span>
-                </div>
-                <SortableContext items={colLeads.map(l => l.phone)} strategy={verticalListSortingStrategy}>
-                  <div className={`${styles.colBody} ${dragging ? styles.colBodyDragging : ''}`}
-                    onDragOver={e => e.preventDefault()}
-                    onDrop={() => dragging && onMover(dragging.phone, dragging.fila, col.estados[0])}
-                  >
-                    {colLeads.length === 0
-                      ? <div className={`${styles.colEmpty} ${dragging ? styles.colEmptyActive : ''}`}>
-                          {dragging ? 'Soltar aquí' : 'Sin leads'}
-                        </div>
-                      : colLeads.map(lead => (
-                          <SortableCard key={lead.phone} lead={lead} onAction={onAction} acting={acting} />
-                        ))
-                    }
-                  </div>
-                </SortableContext>
-              </div>
-            )
-          })}
+          {COLS.map(col => (
+            <DroppableCol
+              key={col.id}
+              col={col}
+              leads={filtrados.filter(l => col.estados.includes(l.estado))}
+              onAction={onAction}
+              acting={acting}
+              isOver={overId === col.id}
+            />
+          ))}
         </div>
 
         <DragOverlay>
-          {dragging && (
-            <div className={styles.dragOverlay}>
-              <div className={styles.dragCard}>
-                <div className={styles.dragName}>{dragging.nombre}</div>
-                <div className={styles.dragSub}>{dragging.producto} · {dragging.minFmt}</div>
+          {activeLead && (
+            <div className={styles.overlay}>
+              <div className={styles.overlayCard}>
+                <div className={styles.overlayName}>{activeLead.nombre}</div>
+                <div className={styles.overlaySub}>{activeLead.producto} · {activeLead.minFmt}</div>
               </div>
             </div>
           )}

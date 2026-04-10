@@ -1,35 +1,13 @@
-.sidebar {
-  width: 48px; height: 100%;
-  background: var(--bg-card);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  align-items: center; padding: 10px 0;
-  flex-shrink: 0;
-}
-.logo {
-  width: 30px; height: 30px;
-  background: var(--orange); border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 800; color: #fff;
-  margin-bottom: 12px; flex-shrink: 0;
-}
-.nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-.navBtn {
-  width: 36px; height: 36px; border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; cursor: pointer;
-  border: none; background: none;
-}
-.navBtn:hover { background: var(--bg-hover); }
-.navActive { background: var(--orange-light) !important; }
-.navIcon { font-size: 15px; color: var(--text-hint); }
-.navActive .navIcon { color: var(--orange); }
-.bottom { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.divider { width: 20px; height: 1px; background: var(--border); margin-bottom: 2px; }
-.avatar {
-  width: 30px; height: 30px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 700; color: #fff;
-  cursor: pointer; border: none; transition: opacity 0.15s;
-}
-.avatar:hover { opacity: 0.8; }
+.sidebar{width:52px;height:100%;background:var(--bg-sidebar);display:flex;flex-direction:column;align-items:center;padding:12px 0;flex-shrink:0}
+.logo{width:32px;height:32px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;margin-bottom:16px;flex-shrink:0}
+.nav{display:flex;flex-direction:column;gap:2px;flex:1}
+.navBtn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;color:rgba(255,255,255,0.3);font-size:16px}
+.navBtn:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7)}
+.navActive{background:rgba(255,255,255,0.12)!important;color:#fff!important}
+.bottom{display:flex;flex-direction:column;align-items:center;gap:6px}
+.divider{width:24px;height:1px;background:rgba(255,255,255,0.08);margin-bottom:2px}
+.settingBtn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.25);font-size:15px;transition:all 0.15s}
+.settingBtn:hover{color:rgba(255,255,255,0.5)}
+.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;border:2px solid rgba(255,255,255,0.15);transition:all 0.15s}
+.avatar:hover{border-color:rgba(255,255,255,0.4)}
+.tooltip{position:relative}
