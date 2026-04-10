@@ -1,0 +1,100 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  animation: fadeIn 0.25s ease both;
+}
+.card:hover { border-color: var(--border-hover); }
+.urgente { border-color: rgba(255,107,53,0.3); background: #0f0b09; }
+.urgente::before { content: ''; display: block; height: 2px; background: var(--orange); }
+.alta::before { content: ''; display: block; height: 2px; background: rgba(255,107,53,0.4); }
+
+.header { padding: 10px 12px; cursor: pointer; }
+.headerTop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.nombre { font-size: 13px; font-weight: 700; color: #fff; }
+.urgTag {
+  font-size: 8px; font-weight: 800; letter-spacing: 0.5px;
+  background: var(--orange); color: #fff;
+  padding: 2px 6px; border-radius: 20px;
+  animation: pulse 1.5s infinite;
+}
+
+.pills { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 5px; }
+.pillProd {
+  font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 20px;
+  background: #141414; color: #555; border: 1px solid #1e1e1e;
+  max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.pillAlta {
+  font-size: 9px; padding: 2px 6px; border-radius: 20px;
+  background: var(--orange-dim); border: 1px solid rgba(255,107,53,0.2);
+}
+.pillTipo {
+  font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 20px;
+  background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(59,130,246,0.15);
+}
+
+.tiempo { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+.tiempoUrgente { color: var(--orange); font-weight: 700; }
+
+/* DETALLE */
+.detail {
+  border-top: 1px solid var(--border);
+  padding: 10px 12px;
+  animation: fadeIn 0.2s ease;
+}
+
+.detailRow {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+}
+.phoneLink {
+  flex: 1; font-size: 12px; color: var(--blue); font-weight: 600;
+  font-family: var(--mono); text-decoration: none;
+  background: var(--blue-dim); padding: 6px 10px; border-radius: 8px;
+  border: 1px solid rgba(59,130,246,0.15);
+  transition: opacity 0.15s;
+}
+.phoneLink:hover { opacity: 0.8; }
+.waLink {
+  font-size: 11px; font-weight: 700; color: #4ade80;
+  background: var(--green-dim); padding: 6px 10px; border-radius: 8px;
+  border: 1px solid rgba(74,222,128,0.15); text-decoration: none;
+}
+
+.detailInfo {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 5px 0; border-bottom: 1px solid var(--border); margin-bottom: 8px;
+}
+.infoLabel { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+.infoVal { font-size: 10px; color: var(--text); font-weight: 600; }
+
+.acciones { display: flex; flex-direction: column; gap: 6px; }
+.btnRow { display: flex; gap: 6px; }
+
+.btn {
+  width: 100%; padding: 9px 8px;
+  border-radius: 9px; border: none;
+  font-size: 11px; font-weight: 700; font-family: var(--font);
+  cursor: pointer; text-align: center;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn:active { transform: scale(0.97); opacity: 0.8; }
+.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.btnMat { background: var(--green); color: #000; }
+.btnDis { opacity: 0.3 !important; pointer-events: none; }
+.btnAge { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(59,130,246,0.2); flex: 1; }
+.btnNc  { background: #141414; color: #444; border: 1px solid var(--border); width: 40px; padding: 9px 0; flex-shrink: 0; }
+.btnCl  { background: var(--green-dim); color: var(--green); border: 1px solid rgba(74,222,128,0.15); }
+
+.agendaRow { display: flex; gap: 6px; flex: 1; }
+.agendaInput {
+  flex: 1; background: #111; border: 1px solid var(--border);
+  border-radius: 8px; color: #fff; padding: 8px; font-size: 11px;
+  font-family: var(--font); min-width: 0;
+}
+.agendaInput:focus { outline: none; border-color: var(--blue); }
+
+.ts { font-size: 9px; color: var(--text-muted); margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--border); }
