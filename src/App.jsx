@@ -219,7 +219,10 @@ function LeadCard({ lead, index, expanded, onToggle, onAction, acting }) {
       {/* PANEL DE ACCIONES — expandible */}
       {expanded && (
         <div className={styles.cardActions}>
-          <div className={styles.cardPhone}>📱 +{lead.phone}</div>
+          <div className={styles.cardPhoneRow}>
+            <div className={styles.cardPhone}>📱 +{lead.phone}</div>
+            <a className={styles.callBtn} href={`tel:+${lead.phone}`}>📞 Llamar</a>
+          </div>
           <div className={styles.actionGrid}>
             <button
               className={`${styles.actionBtn} ${styles.actionMat} ${ym ? styles.actionDis : ''}`}
