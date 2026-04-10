@@ -1,4 +1,3 @@
-// Configuración central del CRM
 export const VENDEDORES = [
   {
     id: 'joan',
@@ -8,31 +7,34 @@ export const VENDEDORES = [
     color: '#ff6b35',
     apiUrl: 'https://script.google.com/macros/s/AKfycbx3-wLw2utcbVnyw9wMXMjVHapoisMpP_yOg-5jYRV-hN38-KLMh_kV9gqcihpnS8V_JA/exec',
   },
-  // Agregar cuando estén listos:
-  // { id: 'cristina', nombre: 'Cristina', initials: 'CR', color: '#3b82f6', apiUrl: '...' },
-  // { id: 'francisco', nombre: 'Francisco', initials: 'FR', color: '#4ade80', apiUrl: '...' },
+  // { id: 'cristina', nombre: 'Cristina', apellido: 'López', initials: 'CL', color: '#3b82f6', apiUrl: '...' },
+  // { id: 'francisco', nombre: 'Francisco', apellido: 'Ruiz', initials: 'FR', color: '#16a34a', apiUrl: '...' },
 ]
 
-export const ESTADOS = [
-  { id: 'esperando',        label: 'Nuevos',          color: '#555' },
-  { id: 'pendiente llamar', label: 'Por llamar',       color: '#ff6b35' },
-  { id: 'no contestó',      label: 'No contestó',      color: '#facc15' },
-  { id: 'agendado',         label: 'Agendado',         color: '#3b82f6' },
-  { id: 'material enviado', label: 'Material enviado', color: '#a78bfa' },
-  { id: 'cerrado',          label: 'Cerrado',          color: '#4ade80' },
+export const COLS = [
+  { id: 'nuevos',           label: 'Nuevos',        color: '#9ca3af', estados: ['esperando','acumulando','reactivado','reactivado2','revisar manual'] },
+  { id: 'pendiente llamar', label: 'Por llamar',     color: '#f97316', estados: ['pendiente llamar'] },
+  { id: 'no contestó',      label: 'No contestó',    color: '#eab308', estados: ['no contestó','no contesto'] },
+  { id: 'agendado',         label: 'Agendado',       color: '#3b82f6', estados: ['agendado'] },
+  { id: 'material enviado', label: 'Mat. enviado',   color: '#7c3aed', estados: ['material enviado'] },
+  { id: 'cerrado',          label: 'Cerrado',        color: '#16a34a', estados: ['cerrado'] },
 ]
-
-export const ADMIN_ID = 'joan' // El que ve panel admin
 
 export async function getLeads(apiUrl) {
   const res = await fetch(`${apiUrl}?action=leads`)
-  if (!res.ok) throw new Error('Error al cargar')
+  if (!res.ok) throw new Error('Error')
   return res.json()
 }
 
 export async function doAction(apiUrl, action, phone, fila, extra = '') {
   let url = `${apiUrl}?action=${action}&phone=${phone}&fila=${fila}`
   if (extra) url += `&hora=${encodeURIComponent(extra)}`
+  const res = await fetch(url)
+  return res.json()
+}
+
+export async function moverLead(apiUrl, phone, fila, nuevoEstado) {
+  const url = `${apiUrl}?action=mover&phone=${phone}&fila=${fila}&estado=${encodeURIComponent(nuevoEstado)}`
   const res = await fetch(url)
   return res.json()
 }
@@ -49,20 +51,14 @@ export function calcMin(fecha) {
 export function fmtMin(min) {
   if (!min || min >= 999) return '—'
   if (min < 60) return `${min}m`
-  const h = Math.floor(min / 60)
-  const m = min % 60
+  const h = Math.floor(min / 60), m = min % 60
   return m > 0 ? `${h}h ${m}m` : `${h}h`
 }
 
 export function processLeads(raw) {
   return raw.map(l => {
     const min = calcMin(l.fecha)
-    return {
-      ...l,
-      min,
-      minFmt: fmtMin(min),
-      urgente: ['esperando','pendiente llamar'].includes(l.estado) && min >= 30,
-    }
+    return { ...l, min, minFmt: fmtMin(min), urgente: ['esperando','pendiente llamar'].includes(l.estado) && min >= 30 }
   }).sort((a, b) => {
     if (a.urgente && !b.urgente) return -1
     if (!a.urgente && b.urgente) return 1

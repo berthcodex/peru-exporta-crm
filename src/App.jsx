@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-import { getLeads, doAction, processLeads } from './config'
+import { getLeads, doAction, moverLead, processLeads } from './config'
 import Login from './components/Login'
+import Sidebar from './components/Sidebar'
 import Topbar from './components/Topbar'
 import StatsBar from './components/StatsBar'
 import Kanban from './components/Kanban'
@@ -53,21 +54,32 @@ export default function App() {
     finally { setActing(null) }
   }
 
+  async function handleMover(phone, fila, nuevoEstado) {
+    try {
+      // Optimistic update
+      setLeads(prev => prev.map(l => l.phone === phone ? { ...l, estado: nuevoEstado } : l))
+      await moverLead(vendedor.apiUrl, phone, fila, nuevoEstado)
+      showToast('Lead movido ✓')
+      await load()
+    } catch { showToast('Error al mover', 'error'); await load() }
+  }
+
   if (!vendedor) return <Login onLogin={handleLogin} />
 
   return (
     <div className={styles.app}>
-      <Topbar
-        vendedor={vendedor}
-        total={leads.length}
-        urgentes={leads.filter(l => l.urgente).length}
-        onLogout={handleLogout}
-        onRefresh={load}
-        loading={loading}
-      />
-      <div className={styles.content}>
+      <Sidebar vendedor={vendedor} onLogout={handleLogout} />
+      <div className={styles.main}>
+        <Topbar
+          vendedor={vendedor}
+          total={leads.length}
+          urgentes={leads.filter(l => l.urgente).length}
+          onLogout={handleLogout}
+          onRefresh={load}
+          loading={loading}
+        />
         <StatsBar leads={leads} />
-        <Kanban leads={leads} onAction={handleAction} acting={acting} />
+        <Kanban leads={leads} onAction={handleAction} onMover={handleMover} acting={acting} />
       </div>
       {toast && (
         <div className={`${styles.toast} ${toast.type === 'error' ? styles.toastError : ''}`}>

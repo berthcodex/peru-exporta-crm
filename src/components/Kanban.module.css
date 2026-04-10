@@ -60,3 +60,15 @@
   font-size: 11px; color: var(--text-hint);
   border: 1px dashed var(--border); border-radius: var(--radius-md);
 }
+
+.colBodyDragging { border: 1.5px dashed var(--border-hover); background: var(--bg-hover); border-radius: var(--radius-md); }
+.colEmptyActive { border-color: var(--orange); color: var(--orange); background: var(--orange-light); }
+.dragOverlay { pointer-events: none; }
+.dragCard {
+  background: var(--bg-card); border: 1.5px solid var(--orange);
+  border-radius: var(--radius-md); padding: 10px 12px;
+  box-shadow: var(--shadow-lg); transform: rotate(2deg);
+  min-width: 160px;
+}
+.dragName { font-size: 12px; font-weight: 700; color: var(--text); }
+.dragSub { font-size: 10px; color: var(--text-hint); margin-top: 3px; }
