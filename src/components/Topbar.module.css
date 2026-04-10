@@ -1,45 +1,42 @@
 .topbar {
-  background: #0a0a0a;
-  border-bottom: 1px solid var(--border);
-  padding: 10px 14px;
   display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 100;
+  padding: 0 16px; height: 44px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card); flex-shrink: 0;
 }
-.left { display: flex; align-items: center; gap: 10px; }
-.logo {
-  width: 32px; height: 32px;
-  background: var(--orange);
-  border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 800; color: #fff;
-  flex-shrink: 0;
-}
-.title { font-size: 14px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
-.sub { font-size: 10px; color: var(--text-sub); margin-top: 1px; }
+.left { display: flex; align-items: center; gap: 6px; }
+.breadcrumb { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+.bc-muted { color: var(--text-hint); }
+.bc-sep { color: var(--border-hover); }
+.bc-active { color: var(--text); font-weight: 600; }
 .right { display: flex; align-items: center; gap: 8px; }
 .urgBadge {
-  font-size: 10px; font-weight: 700;
-  background: var(--orange-dim); color: var(--orange);
-  border: 1px solid rgba(255,107,53,0.2);
-  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; color: var(--orange);
+  background: var(--orange-light); border: 1px solid var(--orange-border);
+  border-radius: 20px; padding: 3px 10px;
   animation: pulse 2s infinite;
 }
-.avatarBtn {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  border: none; cursor: pointer;
-  font-size: 11px; font-weight: 800; color: #fff;
-  transition: opacity 0.2s;
+.refreshBtn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--bg);
+  font-size: 11px; font-weight: 500; color: var(--text-muted);
+  transition: all 0.15s; cursor: pointer;
 }
-.avatarBtn:hover { opacity: 0.8; }
-.logoutBtn {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--text-sub);
-  font-size: 14px; cursor: pointer;
+.refreshBtn:hover { border-color: var(--border-hover); color: var(--text); }
+.hora { font-size: 11px; color: var(--text-hint); }
+.avatarBtn {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: none; cursor: pointer; font-size: 10px;
+  font-weight: 700; color: #fff; transition: opacity 0.15s;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
+}
+.avatarBtn:hover { opacity: 0.85; }
+.logoutBtn {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--text-hint); font-size: 13px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
 }
 .logoutBtn:hover { border-color: var(--border-hover); color: var(--text); }

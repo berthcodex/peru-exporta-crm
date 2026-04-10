@@ -2,12 +2,13 @@ import { useState, useEffect, useCallback } from 'react'
 import { getLeads, doAction, processLeads } from './config'
 import Login from './components/Login'
 import Topbar from './components/Topbar'
+import StatsBar from './components/StatsBar'
 import Kanban from './components/Kanban'
 import styles from './App.module.css'
 
 export default function App() {
   const [vendedor, setVendedor] = useState(() => {
-    try { const s = localStorage.getItem('pe_vendedor'); return s ? JSON.parse(s) : null } catch { return null }
+    try { const s = localStorage.getItem('pe_v'); return s ? JSON.parse(s) : null } catch { return null }
   })
   const [leads, setLeads] = useState([])
   const [loading, setLoading] = useState(false)
@@ -20,22 +21,19 @@ export default function App() {
     try {
       const data = await getLeads(vendedor.apiUrl)
       setLeads(processLeads(Array.isArray(data) ? data : []))
-    } catch {
-      showToast('Error al cargar leads', 'error')
-    } finally {
-      setLoading(false)
-    }
+    } catch { showToast('Error al cargar leads', 'error') }
+    finally { setLoading(false) }
   }, [vendedor])
 
   useEffect(() => { load() }, [load])
 
   function handleLogin(v) {
-    localStorage.setItem('pe_vendedor', JSON.stringify(v))
+    localStorage.setItem('pe_v', JSON.stringify(v))
     setVendedor(v)
   }
 
   function handleLogout() {
-    localStorage.removeItem('pe_vendedor')
+    localStorage.removeItem('pe_v')
     setVendedor(null)
     setLeads([])
   }
@@ -49,14 +47,10 @@ export default function App() {
     setActing(`${action}-${phone}`)
     try {
       await doAction(vendedor.apiUrl, action, phone, fila, extra)
-      const labels = { material: '🚀 Material enviado', agendar: '📅 Agendado', nocontesto: '📵 No contestó', cerrado: '✅ Cerrado' }
-      showToast(labels[action] || 'Listo')
+      showToast({ material: '🚀 Material enviado', agendar: '📅 Agendado', nocontesto: '📵 Registrado', cerrado: '✅ Cerrado' }[action] || 'Listo')
       await load()
-    } catch {
-      showToast('Error al ejecutar', 'error')
-    } finally {
-      setActing(null)
-    }
+    } catch { showToast('Error al ejecutar', 'error') }
+    finally { setActing(null) }
   }
 
   if (!vendedor) return <Login onLogin={handleLogin} />
@@ -71,7 +65,10 @@ export default function App() {
         onRefresh={load}
         loading={loading}
       />
-      <Kanban leads={leads} onAction={handleAction} acting={acting} />
+      <div className={styles.content}>
+        <StatsBar leads={leads} />
+        <Kanban leads={leads} onAction={handleAction} acting={acting} />
+      </div>
       {toast && (
         <div className={`${styles.toast} ${toast.type === 'error' ? styles.toastError : ''}`}>
           {toast.msg}

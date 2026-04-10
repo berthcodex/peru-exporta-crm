@@ -1,0 +1,18 @@
+.bar {
+  display: flex; border-bottom: 1px solid var(--border);
+  background: var(--bg-card); flex-shrink: 0; overflow-x: auto;
+  scrollbar-width: none;
+}
+.bar::-webkit-scrollbar { display: none; }
+.stat {
+  padding: 10px 16px; border-right: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.stat:last-child { border-right: none; }
+.n { font-size: 20px; font-weight: 700; color: var(--text); line-height: 1; }
+.l { font-size: 9px; color: var(--text-hint); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; margin-top: 3px; }
+.orange { color: var(--orange); }
+.orange2 { color: var(--yellow); }
+.blue { color: var(--blue); }
+.green { color: var(--green); }
+.purple { color: var(--purple); }
