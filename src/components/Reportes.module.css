@@ -1,0 +1,24 @@
+.wrap{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;background:var(--bg)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-xs)}
+.sectionTitle{font-size:10px;font-weight:700;color:var(--text-hint);text-transform:uppercase;letter-spacing:0.9px;margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.sectionTitle::after{content:'';flex:1;height:1px;background:var(--border)}
+.statsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.statCard{background:var(--bg-hover);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 12px;transition:all 0.15s}
+.statCard:hover{border-color:var(--border-hover);box-shadow:var(--sh-xs)}
+.statN{font-size:24px;font-weight:700;line-height:1;letter-spacing:-0.8px}
+.statL{font-size:11px;font-weight:600;color:var(--text);margin-top:5px}
+.statSub{font-size:10px;color:var(--text-hint);margin-top:2px}
+.barChart{display:flex;align-items:flex-end;gap:8px;height:130px;padding-top:8px}
+.barItem{display:flex;flex-direction:column;align-items:center;flex:1;gap:5px;height:100%}
+.barTrack{flex:1;width:100%;background:var(--bg-hover);border-radius:5px;display:flex;align-items:flex-end;overflow:hidden;border:1px solid var(--border)}
+.barFill{width:100%;border-radius:4px;transition:height 0.5s cubic-bezier(0.4,0,0.2,1);min-height:3px}
+.barLabel{font-size:9px;color:var(--text-hint);font-weight:600;text-align:center;white-space:nowrap;text-transform:uppercase;letter-spacing:0.3px}
+.barVal{font-size:11px;font-weight:700;color:var(--text)}
+.distGrid{display:flex;flex-direction:column;gap:14px}
+.distItem{display:flex;flex-direction:column;gap:6px}
+.distBar{height:9px;background:var(--bg-hover);border-radius:20px;overflow:hidden;border:1px solid var(--border)}
+.distFill{height:100%;border-radius:20px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)}
+.distLabel{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);font-weight:500}
+.distLabel span:last-child{font-weight:700;color:var(--text)}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.statsGrid{grid-template-columns:repeat(2,1fr)}}

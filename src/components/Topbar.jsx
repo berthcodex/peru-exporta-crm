@@ -1,5 +1,5 @@
 import styles from './Topbar.module.css'
-export default function Topbar({ vendedor, total, urgentes, onLogout, onRefresh, loading }) {
+export default function Topbar({ vendedor, total, urgentes, onRefresh, loading, title }) {
   const hora = new Date().toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'})
   return (
     <div className={styles.topbar}>
@@ -7,7 +7,7 @@ export default function Topbar({ vendedor, total, urgentes, onLogout, onRefresh,
         <div className={styles.breadcrumb}>
           <span className={styles.bcMuted}>Perú Exporta</span>
           <span className={styles.bcSep}>›</span>
-          <span className={styles.bcActive}>Pipeline de ventas</span>
+          <span className={styles.bcActive}>{title}</span>
         </div>
       </div>
       <div className={styles.right}>

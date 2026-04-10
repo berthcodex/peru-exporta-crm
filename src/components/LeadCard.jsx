@@ -19,56 +19,83 @@ export default function LeadCard({ lead, onAction, acting }) {
       className={`${styles.card} ${lead.urgente?styles.urgente:lead.prioridad==='ALTA'?styles.alta:''} ${isDragging?styles.dragging:''}`}
     >
       {/* Drag handle */}
-      <div className={styles.dragHandle} {...listeners} {...attributes} onClick={e => e.stopPropagation()}>⠿</div>
+      <div className={styles.dragHandle} {...listeners} {...attributes}>⠿</div>
 
-      <div className={styles.header} onClick={() => setExpanded(!expanded)}>
+      {/* Nombre + urgente */}
+      <div className={styles.header}>
         <div className={styles.nombre}>{lead.nombre}</div>
-        {lead.urgente && <div className={styles.urgDot} />}
+        {lead.urgente && <span className={styles.urgTag}>LLAMA</span>}
       </div>
 
-      <div className={styles.pills} onClick={() => setExpanded(!expanded)}>
-        {lead.producto && lead.producto !== '—' && <span className={`${styles.pill} ${styles.pProd}`}>{lead.producto}</span>}
-        {lead.prioridad === 'ALTA' && <span className={`${styles.pill} ${styles.pAlta}`}>⚡ Alta</span>}
-        <span className={`${styles.pill} ${esTipoB?styles.pB:styles.pA}`}>{esTipoB?'Tipo B':'Tipo A'}</span>
-      </div>
-
-      <div className={styles.meta} onClick={() => setExpanded(!expanded)}>
-        <span className={lead.urgente?styles.tiempoHot:styles.tiempo}>
-          {lead.urgente ? `🔥 ${lead.minFmt} esperando` : `${lead.minFmt} · ${lead.estado}`}
+      {/* Pills siempre visibles */}
+      <div className={styles.pills}>
+        {lead.producto && lead.producto !== '—' && (
+          <span className={`${styles.pill} ${styles.pProd}`}>{lead.producto}</span>
+        )}
+        {lead.prioridad === 'ALTA' && (
+          <span className={`${styles.pill} ${styles.pAlta}`}>⚡ Alta</span>
+        )}
+        <span className={`${styles.pill} ${esTipoB?styles.pB:styles.pA}`}>
+          {esTipoB ? 'Tipo B' : 'Tipo A'}
         </span>
       </div>
 
+      {/* Tiempo + estado siempre visible */}
+      <div className={styles.metaRow}>
+        <span className={lead.urgente ? styles.tiempoHot : styles.tiempo}>
+          🕐 {lead.minFmt} {lead.urgente ? 'esperando' : '· ' + lead.estado}
+        </span>
+      </div>
+
+      {/* BOTÓN LLAMAR — siempre visible */}
+      <a className={styles.callBtn} href={`tel:+${lead.phone}`}>
+        📞 +{lead.phone}
+      </a>
+
+      {/* Toggle más acciones */}
+      <button className={styles.expandBtn} onClick={() => setExpanded(!expanded)}>
+        {expanded ? '▲ Menos' : '▾ Más acciones'}
+      </button>
+
+      {/* Acciones expandibles */}
       {expanded && (
-        <div className={styles.detail}>
-          <div className={styles.phoneRow}>
-            <a className={styles.phoneBtn} href={`tel:+${lead.phone}`}>📞 Llamar +{lead.phone}</a>
-            <a className={styles.waBtn} href={`https://wa.me/${lead.phone}`} target="_blank" rel="noreferrer">💬 WA</a>
-          </div>
-          <div className={styles.actions}>
-            <button
-              className={`${styles.btnMat} ${ym?styles.btnMatSent:''}`}
-              disabled={ym || isActing('material')}
-              onClick={() => onAction('material', lead.phone, lead.fila)}
-            >
-              {isActing('material') ? '⟳' : ym ? '✓ Material enviado' : '🚀 Enviar material'}
-            </button>
-            <div className={styles.btnRow}>
-              {!showAgenda ? (
-                <button className={`${styles.btnSm} ${styles.btnAge}`} onClick={() => setShowAgenda(true)}>📅 Agendar</button>
-              ) : (
-                <div className={styles.agendaWrap}>
-                  <input type="datetime-local" className={styles.agendaInput} value={agendaHora} onChange={e => setAgendaHora(e.target.value)} />
-                  <button className={styles.btnConfirm} disabled={!agendaHora} onClick={() => { onAction('agendar', lead.phone, lead.fila, agendaHora); setShowAgenda(false) }}>✓</button>
-                </div>
-              )}
-              <button className={styles.btnSm} disabled={isActing('nocontesto')} onClick={() => onAction('nocontesto', lead.phone, lead.fila)}>
-                {isActing('nocontesto') ? '⟳' : '📵 No contestó'}
+        <div className={styles.actions}>
+          <a className={styles.waBtn} href={`https://wa.me/${lead.phone}`} target="_blank" rel="noreferrer">
+            💬 Abrir WhatsApp
+          </a>
+          <button
+            className={`${styles.btnMat} ${ym?styles.btnMatSent:''}`}
+            disabled={ym || isActing('material')}
+            onClick={() => onAction('material', lead.phone, lead.fila)}
+          >
+            {isActing('material') ? '⟳ Enviando...' : ym ? '✓ Material enviado' : '🚀 Enviar material'}
+          </button>
+          <div className={styles.btnRow}>
+            {!showAgenda ? (
+              <button className={`${styles.btnSm} ${styles.btnAge}`} onClick={() => setShowAgenda(true)}>
+                📅 Agendar
               </button>
-            </div>
-            <button className={styles.btnCl} disabled={isActing('cerrado')} onClick={() => onAction('cerrado', lead.phone, lead.fila)}>
-              {isActing('cerrado') ? '⟳' : '✅ Marcar cerrado'}
+            ) : (
+              <div className={styles.agendaWrap}>
+                <input
+                  type="datetime-local" className={styles.agendaInput}
+                  value={agendaHora} onChange={e => setAgendaHora(e.target.value)}
+                />
+                <button className={styles.btnConfirm} disabled={!agendaHora}
+                  onClick={() => { onAction('agendar', lead.phone, lead.fila, agendaHora); setShowAgenda(false) }}>
+                  ✓
+                </button>
+              </div>
+            )}
+            <button className={styles.btnSm} disabled={isActing('nocontesto')}
+              onClick={() => onAction('nocontesto', lead.phone, lead.fila)}>
+              {isActing('nocontesto') ? '⟳' : '📵 No contestó'}
             </button>
           </div>
+          <button className={styles.btnCl} disabled={isActing('cerrado')}
+            onClick={() => onAction('cerrado', lead.phone, lead.fila)}>
+            {isActing('cerrado') ? '⟳' : '✅ Marcar cerrado'}
+          </button>
           {lead.fechaAcc && <div className={styles.ts}>Última acción: {lead.fechaAcc}</div>}
         </div>
       )}

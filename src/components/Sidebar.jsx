@@ -1,19 +1,26 @@
 import styles from './Sidebar.module.css'
 
 const NAV = [
-  { icon: '⊞', label: 'Pipeline', id: 'pipeline' },
-  { icon: '◷', label: 'Actividad', id: 'actividad' },
-  { icon: '↑↓', label: 'Leads', id: 'leads' },
+  { id: 'pipeline',  icon: '⊞', label: 'Pipeline' },
+  { id: 'leads',     icon: '☰', label: 'Leads' },
+  { id: 'reportes',  icon: '◈', label: 'Reportes' },
+  { id: 'actividad', icon: '◷', label: 'Actividad' },
 ]
 
-export default function Sidebar({ vendedor, onLogout, active = 'pipeline' }) {
+export default function Sidebar({ vendedor, onLogout, view, onView }) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>PE</div>
       <nav className={styles.nav}>
         {NAV.map(n => (
-          <button key={n.id} className={`${styles.navBtn} ${active === n.id ? styles.navActive : ''}`} title={n.label}>
+          <button
+            key={n.id}
+            className={`${styles.navBtn} ${view === n.id ? styles.navActive : ''}`}
+            onClick={() => onView(n.id)}
+            title={n.label}
+          >
             <span className={styles.navIcon}>{n.icon}</span>
+            <span className={styles.navLabel}>{n.label}</span>
           </button>
         ))}
       </nav>
@@ -21,6 +28,7 @@ export default function Sidebar({ vendedor, onLogout, active = 'pipeline' }) {
         <div className={styles.divider} />
         <button className={styles.navBtn} title="Configuración">
           <span className={styles.navIcon}>⚙</span>
+          <span className={styles.navLabel}>Config</span>
         </button>
         <button
           className={styles.avatar}
