@@ -57,10 +57,18 @@ export default function App() {
     finally { setActing(null) }
   }
 
-  async function handleMover(phone, fila, nuevoEstado) {
-    setLeads(prev => prev.map(l => l.phone === phone ? { ...l, estado: nuevoEstado } : l))
+  async function handleMover(phone, fila, colId) {
+    // Mapa col.id → estado visual para optimistic update
+    const colToEstado = {
+      'nuevos': 'esperando', 'pendiente llamar': 'pendiente llamar',
+      'no contestó': 'no contestó', 'agendado': 'agendado',
+      'material enviado': 'material enviado', 'cerrado': 'cerrado',
+    }
+    const estadoVisual = colToEstado[colId] || colId
+    // Optimistic update inmediato
+    setLeads(prev => prev.map(l => l.phone === phone ? { ...l, estado: estadoVisual } : l))
     try {
-      await moverLead(vendedor.apiUrl, phone, fila, nuevoEstado)
+      await moverLead(vendedor.apiUrl, phone, fila, colId)
       showToast('Lead movido ✓')
       await load()
     } catch { showToast('Error al mover', 'error'); await load() }

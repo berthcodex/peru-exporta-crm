@@ -57,7 +57,7 @@ export default function Kanban({ leads, onAction, onMover, acting }) {
     if (!lead) return
     const col = COLS.find(c => c.id === over.id)
     if (col && !col.estados.includes(lead.estado)) {
-      onMover(lead.phone, lead.fila, col.estados[0])
+      onMover(lead.phone, lead.fila, col.id)
     }
   }
 
