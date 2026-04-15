@@ -31,7 +31,7 @@ export default function App() {
     if (!vendedor) return
     setLoading(true)
     try {
-      const data = await getLeads(vendedor.apiUrl)
+      const data = await getLeads(vendedor.id)
       setLeads(processLeads(Array.isArray(data) ? data : []))
     } catch { showToast('Error al cargar leads', 'error') }
     finally { setLoading(false) }
@@ -41,7 +41,6 @@ export default function App() {
 
   function handleLogin(v) { localStorage.setItem('pe_v', JSON.stringify(v)); setVendedor(v) }
   function handleLogout() { localStorage.removeItem('pe_v'); setVendedor(null); setLeads([]) }
-
   function showToast(msg, type = 'ok') {
     setToast({ msg, type })
     setTimeout(() => setToast(null), 3000)
@@ -50,7 +49,7 @@ export default function App() {
   async function handleAction(action, phone, fila, extra) {
     setActing(`${action}-${phone}`)
     try {
-      await doAction(vendedor.apiUrl, action, phone, fila, extra)
+      await doAction(vendedor.id, action, phone, fila, extra)
       showToast({ material:'🚀 Material enviado', agendar:'📅 Agendado', nocontesto:'📵 Registrado', cerrado:'✅ Cerrado' }[action] || 'Listo')
       await load()
     } catch { showToast('Error al ejecutar', 'error') }
@@ -58,17 +57,15 @@ export default function App() {
   }
 
   async function handleMover(phone, fila, colId) {
-    // Mapa col.id → estado visual para optimistic update
     const colToEstado = {
       'nuevos': 'esperando', 'pendiente llamar': 'pendiente llamar',
       'no contestó': 'no contestó', 'agendado': 'agendado',
       'material enviado': 'material enviado', 'cerrado': 'cerrado',
     }
     const estadoVisual = colToEstado[colId] || colId
-    // Optimistic update inmediato
     setLeads(prev => prev.map(l => l.phone === phone ? { ...l, estado: estadoVisual } : l))
     try {
-      await moverLead(vendedor.apiUrl, phone, fila, colId)
+      await moverLead(vendedor.id, phone, fila, colId)
       showToast('Lead movido ✓')
       await load()
     } catch { showToast('Error al mover', 'error'); await load() }
