@@ -14,7 +14,7 @@ export const VENDEDORES = [
     apellido: 'Hidalgo',
     initials: 'JH',
     color: '#ff6b35',
-    instancia: 'peru-exporta-joan',
+    instancia: 'peru-exporta',
   },
   {
     id: 'cristina',
