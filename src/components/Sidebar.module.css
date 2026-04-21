@@ -23,3 +23,8 @@
   .divider{display:none}
   .avatar{width:28px;height:28px;font-size:10px}
 }
+
+.subNav{width:100%;display:flex;flex-direction:column;gap:2px;padding:0 0 4px}
+.subNavBtn{width:100%;padding:7px 8px;border-radius:8px;display:flex;align-items:center;gap:7px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:none;text-align:left;transition:all 0.15s}
+.subNavBtn:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7)}
+.subNavActive{background:rgba(232,82,26,0.12)!important;color:#e8521a!important}

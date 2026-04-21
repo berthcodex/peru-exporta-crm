@@ -1,0 +1,147 @@
+.wrap { padding: 24px; max-width: 960px; margin: 0 auto; }
+.loading { padding: 48px; text-align: center; color: #6b7280; }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.title { font-size: 22px; font-weight: 700; color: #111827; margin: 0 0 4px; }
+.sub { font-size: 13px; color: #6b7280; margin: 0; }
+
+.btnPrimario {
+  background: #ff6b35; color: white; border: none;
+  border-radius: 8px; padding: 10px 18px;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s; white-space: nowrap;
+}
+.btnPrimario:hover:not(:disabled) { background: #e85d2a; }
+.btnPrimario:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btnSecundario {
+  background: white; color: #374151;
+  border: 1px solid #d1d5db; border-radius: 8px;
+  padding: 10px 16px; font-size: 14px; font-weight: 500;
+  cursor: pointer;
+}
+.btnSecundario:hover { background: #f9fafb; }
+
+.seccion { margin-bottom: 32px; }
+.seccionTitle {
+  font-size: 13px; font-weight: 600; color: #6b7280;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.cardInactivo { opacity: 0.6; }
+
+.cardTop { display: flex; align-items: center; gap: 12px; }
+
+.avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: white;
+  flex-shrink: 0;
+}
+
+.cardInfo { flex: 1; }
+.cardNombre { font-size: 15px; font-weight: 600; color: #111827; }
+.cardRol { font-size: 12px; color: #6b7280; margin-top: 2px; }
+
+.activoBadge {
+  background: #dcfce7; color: #16a34a;
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 11px; font-weight: 600;
+}
+.inactivoBadge {
+  background: #f3f4f6; color: #6b7280;
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 11px; font-weight: 600;
+}
+
+.cardDetalle { display: flex; flex-direction: column; gap: 6px; }
+.detalleItem { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; }
+.detalleIcon { font-size: 14px; }
+.instancia { font-family: monospace; font-size: 11px; color: #6b7280; }
+
+.cardActions { display: flex; gap: 8px; }
+
+.btnEditar {
+  flex: 1; background: #f9fafb; color: #374151;
+  border: 1px solid #e5e7eb; border-radius: 8px;
+  padding: 8px; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: background 0.15s;
+}
+.btnEditar:hover { background: #f3f4f6; }
+
+.btnDesactivar {
+  background: white; color: #ef4444;
+  border: 1px solid #fecaca; border-radius: 8px;
+  padding: 8px 12px; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: background 0.15s;
+}
+.btnDesactivar:hover { background: #fef2f2; }
+
+/* Modal */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  width: 100%; max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.modalHeader {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px 0;
+}
+.modalTitle { font-size: 18px; font-weight: 700; color: #111827; margin: 0; }
+.modalClose {
+  background: none; border: none; font-size: 18px;
+  color: #6b7280; cursor: pointer; padding: 4px;
+}
+.modalClose:hover { color: #111827; }
+
+.modalBody { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.fieldLabel { font-size: 13px; font-weight: 600; color: #374151; }
+.fieldHint { font-size: 11px; color: #9ca3af; }
+
+.input {
+  border: 1px solid #d1d5db; border-radius: 8px;
+  padding: 10px 12px; font-size: 14px; color: #111827;
+  outline: none; transition: border-color 0.15s;
+  font-family: inherit;
+}
+.input:focus { border-color: #ff6b35; }
+
+.modalFooter {
+  display: flex; gap: 8px; justify-content: flex-end;
+  padding: 16px 24px 20px;
+  border-top: 1px solid #f3f4f6;
+}
