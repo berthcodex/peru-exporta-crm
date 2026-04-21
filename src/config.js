@@ -202,6 +202,75 @@ export function fmtMin(min) {
 // PROCESAMIENTO DE LEADS
 // Normaliza estados, calcula tiempos, ordena
 // ============================================
+// ============================================
+// API — BOT CONFIG
+// GET /config/bot    → leer los 7 mensajes
+// PUT /config/bot    → guardar cambios
+// ============================================
+export async function getBotConfig() {
+  const res = await fetch(`${API_URL}/config/bot`)
+  if (!res.ok) throw new Error(`Error ${res.status} al obtener bot config`)
+  return res.json()
+}
+
+export async function saveBotConfig(data) {
+  const res = await fetch(`${API_URL}/config/bot`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  if (!res.ok) throw new Error(`Error ${res.status} al guardar bot config`)
+  return res.json()
+}
+
+// ============================================
+// API — VENDEDORES
+// GET  /config/vendedores        → listar
+// POST /config/vendedores        → agregar
+// PUT  /config/vendedores/:id    → editar
+// PUT  /config/vendedores/:id/desactivar → desactivar
+// ============================================
+export async function getVendedores() {
+  const res = await fetch(`${API_URL}/config/vendedores`)
+  if (!res.ok) throw new Error(`Error ${res.status} al obtener vendedores`)
+  return res.json()
+}
+
+export async function createVendedor(data) {
+  const res = await fetch(`${API_URL}/config/vendedores`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.error || `Error ${res.status}`)
+  }
+  return res.json()
+}
+
+export async function updateVendedor(id, data) {
+  const res = await fetch(`${API_URL}/config/vendedores/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  if (!res.ok) throw new Error(`Error ${res.status} al actualizar vendedor`)
+  return res.json()
+}
+
+export async function desactivarVendedor(id) {
+  const res = await fetch(`${API_URL}/config/vendedores/${id}/desactivar`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' }
+  })
+  if (!res.ok) throw new Error(`Error ${res.status} al desactivar vendedor`)
+  return res.json()
+}
+
+// ============================================
+// PROCESAMIENTO DE LEADS
+// ============================================
 export function processLeads(raw) {
   return raw.map(l => {
     const min = calcMin(l.creadoEn || l.fecha || l.ultimoTimestamp)

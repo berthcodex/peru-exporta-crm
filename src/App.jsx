@@ -8,13 +8,17 @@ import Kanban from './components/Kanban'
 import LeadsTable from './components/LeadsTable'
 import Reportes from './components/Reportes'
 import Actividad from './components/Actividad'
+import ConfigBot from './components/ConfigBot'
+import ConfigVendedores from './components/ConfigVendedores'
 import styles from './App.module.css'
 
 const VIEW_TITLES = {
-  pipeline:  'Pipeline de ventas',
-  leads:     'Todos los leads',
-  reportes:  'Reportes',
-  actividad: 'Actividad reciente',
+  pipeline:          'Pipeline de ventas',
+  leads:             'Todos los leads',
+  reportes:          'Reportes',
+  actividad:         'Actividad reciente',
+  'config-bot':      'Configuración — Mensajes del Bot',
+  'config-vendedores': 'Configuración — Vendedores',
 }
 
 export default function App() {
@@ -84,11 +88,13 @@ export default function App() {
           onLogout={handleLogout} onRefresh={load} loading={loading}
           title={VIEW_TITLES[view]}
         />
-        {view !== 'reportes' && view !== 'actividad' && <StatsBar leads={leads} />}
+        {view !== 'reportes' && view !== 'actividad' && !view.startsWith('config') && <StatsBar leads={leads} />}
         {view === 'pipeline'  && <Kanban leads={leads} onAction={handleAction} onMover={handleMover} acting={acting} />}
         {view === 'leads'     && <LeadsTable leads={leads} onAction={handleAction} acting={acting} />}
         {view === 'reportes'  && <Reportes leads={leads} />}
         {view === 'actividad' && <Actividad leads={leads} />}
+        {view === 'config-bot'        && <ConfigBot onToast={showToast} />}
+        {view === 'config-vendedores' && <ConfigVendedores onToast={showToast} />}
       </div>
       {toast && (
         <div className={`${styles.toast} ${toast.type==='error'?styles.toastError:''}`}>{toast.msg}</div>
