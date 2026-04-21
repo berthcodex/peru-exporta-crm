@@ -89,12 +89,14 @@ export default function App() {
           title={VIEW_TITLES[view]}
         />
         {view !== 'reportes' && view !== 'actividad' && !view.startsWith('config') && <StatsBar leads={leads} />}
-        {view === 'pipeline'  && <Kanban leads={leads} onAction={handleAction} onMover={handleMover} acting={acting} />}
-        {view === 'leads'     && <LeadsTable leads={leads} onAction={handleAction} acting={acting} />}
-        {view === 'reportes'  && <Reportes leads={leads} />}
-        {view === 'actividad' && <Actividad leads={leads} />}
-        {view === 'config-bot'        && <ConfigBot onToast={showToast} />}
-        {view === 'config-vendedores' && <ConfigVendedores onToast={showToast} />}
+        <div className={styles.mainScroll}>
+          {view === 'pipeline'  && <Kanban leads={leads} onAction={handleAction} onMover={handleMover} acting={acting} />}
+          {view === 'leads'     && <LeadsTable leads={leads} onAction={handleAction} acting={acting} />}
+          {view === 'reportes'  && <Reportes leads={leads} />}
+          {view === 'actividad' && <Actividad leads={leads} />}
+          {view === 'config-bot'        && <ConfigBot onToast={showToast} />}
+          {view === 'config-vendedores' && <ConfigVendedores onToast={showToast} />}
+        </div>
       </div>
       {toast && (
         <div className={`${styles.toast} ${toast.type==='error'?styles.toastError:''}`}>{toast.msg}</div>
