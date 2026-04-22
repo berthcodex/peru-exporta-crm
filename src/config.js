@@ -9,7 +9,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'https://whatsapp-sales-backend.
 // ============================================
 export const VENDEDORES = [
   {
-    id: 'joan',
+    id: 1,
     nombre: 'Joan',
     apellido: 'Hidalgo',
     initials: 'JH',
@@ -17,7 +17,7 @@ export const VENDEDORES = [
     instancia: 'peru-exporta',
   },
   {
-    id: 'cristina',
+    id: 2,
     nombre: 'Cristina',
     apellido: '',
     initials: 'CR',
@@ -25,7 +25,7 @@ export const VENDEDORES = [
     instancia: 'peru-exporta-cristina',
   },
   {
-    id: 'francisco',
+    id: 3,
     nombre: 'Francisco',
     apellido: '',
     initials: 'FR',
