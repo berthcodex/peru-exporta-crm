@@ -1,19 +1,15 @@
 import styles from './Sidebar.module.css'
 
 const NAV = [
-  { id: 'pipeline',  icon: '⊞', label: 'Pipeline' },
-  { id: 'leads',     icon: '☰', label: 'Leads' },
-  { id: 'reportes',  icon: '◈', label: 'Reportes' },
-  { id: 'actividad', icon: '◷', label: 'Actividad' },
-  { id: 'flujos',    icon: '⚡', label: 'Flujos' },
-]
-
-const NAV_CONFIG = [
-  { id: 'config-vendedores', icon: '👥', label: 'Vendedores' },
+  { id: 'pipeline',           icon: '⊞', label: 'Pipeline' },
+  { id: 'leads',              icon: '☰', label: 'Leads' },
+  { id: 'reportes',           icon: '◈', label: 'Reportes' },
+  { id: 'actividad',          icon: '◷', label: 'Actividad' },
+  { id: 'flujos',             icon: '⚡', label: 'Flujos' },
+  { id: 'config-vendedores',  icon: '👥', label: 'Vendedores' },
 ]
 
 export default function Sidebar({ vendedor, onLogout, view, onView }) {
-  const enConfig = view.startsWith('config')
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>PE</div>
@@ -32,28 +28,6 @@ export default function Sidebar({ vendedor, onLogout, view, onView }) {
       </nav>
       <div className={styles.bottom}>
         <div className={styles.divider} />
-        <button
-          className={`${styles.navBtn} ${enConfig ? styles.navActive : ''}`}
-          title="Configuración"
-          onClick={() => onView('config-vendedores')}
-        >
-          <span className={styles.navIcon}>⚙</span>
-          <span className={styles.navLabel}>Config</span>
-        </button>
-        {enConfig && (
-          <div className={styles.subNav}>
-            {NAV_CONFIG.map(n => (
-              <button
-                key={n.id}
-                className={`${styles.subNavBtn} ${view === n.id ? styles.subNavActive : ''}`}
-                onClick={() => onView(n.id)}
-              >
-                <span>{n.icon}</span>
-                <span>{n.label}</span>
-              </button>
-            ))}
-          </div>
-        )}
         <button
           className={styles.avatar}
           style={{ background: vendedor.color }}
