@@ -346,12 +346,32 @@ export default function FlowBuilder() {
     finally { setSaving(false) }
   }
 
-  const handleToggleActive = async () => {
+  // Sprint 3 Bug 4: activar de forma exclusiva (pausa las demás del mismo vendedor)
+  // Solo el ADMIN puede activar — el vendor solo puede editar pasos
+  const handleActivarExclusivo = async () => {
     if (!selected) return
-    const updated = await api.updateCampaign(selected.id, { activa: !selected.activa })
-    setCampaigns(cs => cs.map(c => c.id === selected.id ? { ...c, activa: updated.activa } : c))
-    setSelected(s => ({ ...s, activa: updated.activa }))
-    showToast(`Campaña ${updated.activa ? 'activada' : 'pausada'} ✓`)
+    try {
+      const updated = await api.activarCampaign(selected.id)
+      // Refrescar lista completa — otras campañas del vendedor quedaron pausadas
+      const camps = await api.getCampaigns()
+      setCampaigns(camps)
+      const actualizada = camps.find(c => c.id === selected.id)
+      if (actualizada) {
+        setSelected(actualizada)
+        setSteps(actualizada.steps.map(s => ({ ...s })))
+      }
+      showToast(`✅ ${updated.slug} activa en producción — otras pausadas`)
+    } catch { showToast('Error al activar campaña', false) }
+  }
+
+  const handlePausar = async () => {
+    if (!selected) return
+    try {
+      const updated = await api.updateCampaign(selected.id, { activa: false })
+      setCampaigns(cs => cs.map(c => c.id === selected.id ? { ...c, activa: updated.activa } : c))
+      setSelected(s => ({ ...s, activa: updated.activa }))
+      showToast('Campaña pausada ✓')
+    } catch { showToast('Error al pausar', false) }
   }
 
   const handleAddTrigger = async (texto) => {
@@ -484,14 +504,21 @@ export default function FlowBuilder() {
           </div>
           {selected && (
             <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={handleToggleActive} style={{
-                padding: '5px 12px', background: 'transparent',
-                border: '0.5px solid var(--color-border-secondary)',
-                borderRadius: 8, fontSize: 12, cursor: 'pointer',
-                color: 'var(--color-text-secondary)'
-              }}>
-                {selected.activa ? 'Pausar' : 'Activar'}
-              </button>
+              {selected.activa ? (
+                <button onClick={handlePausar} style={{
+                  padding: '5px 12px', background: 'transparent',
+                  border: '0.5px solid var(--color-border-secondary)',
+                  borderRadius: 8, fontSize: 12, cursor: 'pointer',
+                  color: 'var(--color-text-secondary)'
+                }}>Pausar</button>
+              ) : (
+                <button onClick={handleActivarExclusivo} style={{
+                  padding: '5px 14px', background: '#EAF3DE',
+                  border: '0.5px solid #C0DD97',
+                  borderRadius: 8, fontSize: 12, cursor: 'pointer',
+                  color: '#27500A', fontWeight: 500
+                }}>⚡ Activar en producción</button>
+              )}
               <button onClick={handleSaveSteps} disabled={saving} style={{
                 padding: '5px 14px', background: saving ? '#378ADD' : '#185FA5',
                 border: 'none', borderRadius: 8, fontSize: 12,

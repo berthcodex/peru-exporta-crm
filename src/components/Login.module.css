@@ -15,3 +15,78 @@
 .vendRole{font-size:11px;color:var(--text-hint);margin-top:2px}
 .vendArrow{font-size:18px;color:var(--border-hover);transition:all 0.15s}
 .vendBtn:hover .vendArrow{transform:translateX(4px);color:var(--orange)}
+
+/* Sprint 3 — PIN login additions */
+.pinWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.pinDots {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.pinDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border-secondary);
+  background: transparent;
+  transition: background .15s, border-color .15s;
+}
+.pinDotFilled {
+  background: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+}
+.pinInput {
+  width: 100%;
+  padding: 10px 14px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 8px;
+  color: var(--color-text-primary);
+  background: var(--color-background-primary);
+  margin-bottom: 14px;
+}
+.pinInput:focus { outline: none; border-color: var(--color-border-primary); }
+.btnEntrar {
+  width: 100%;
+  padding: 10px;
+  background: var(--color-text-primary);
+  color: var(--color-background-primary);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity .15s;
+  margin-bottom: 8px;
+}
+.btnEntrar:disabled { opacity: 0.4; cursor: not-allowed; }
+.cambiarBtn {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  background: none;
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 3px 8px;
+  cursor: pointer;
+  margin-left: auto;
+}
+.cambiarBtn:hover { background: var(--color-background-secondary); }
+.errorMsg {
+  font-size: 12px;
+  color: var(--color-text-danger);
+  margin-bottom: 10px;
+  text-align: center;
+}
+.loading {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  padding: 2rem;
+}

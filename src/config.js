@@ -107,9 +107,10 @@ export function normalizarEstado(estado) {
 // API — LEADS
 // GET /leads — lista de leads del vendedor
 // ============================================
-export async function getLeads(vendedorId = null) {
+export async function getLeads(vendedorId = null, role = null) {
   const params = new URLSearchParams()
-  if (vendedorId) params.append('vendedor', vendedorId)
+  if (vendedorId) params.append("vendorId", vendedorId)
+  if (role) params.append("role", role)
 
   const res = await fetch(`${API_URL}/leads?${params}`, {
     headers: { 'Content-Type': 'application/json' }
@@ -166,7 +167,8 @@ export async function doAction(leadId, accion, extra = {}) {
 // ============================================
 export async function getReportes(vendedorId = null) {
   const params = new URLSearchParams()
-  if (vendedorId) params.append('vendedor', vendedorId)
+  if (vendedorId) params.append("vendorId", vendedorId)
+  if (role) params.append("role", role)
 
   const res = await fetch(`${API_URL}/reportes?${params}`)
   if (!res.ok) throw new Error(`Error ${res.status} al obtener reportes`)

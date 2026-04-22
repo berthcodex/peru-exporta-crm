@@ -31,4 +31,7 @@ export const api = {
 
   // Vendors
   getVendors:        ()           => req('GET',    '/vendors'),
+
+  // Sprint 3 Bug 4: activar campaña exclusiva
+  activarCampaign:   (id)         => req('PATCH',  `/campaigns/${id}/activar`),
 }
