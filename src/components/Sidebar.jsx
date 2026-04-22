@@ -5,7 +5,7 @@ const NAV = [
   { id: 'leads',     icon: '☰', label: 'Leads' },
   { id: 'reportes',  icon: '◈', label: 'Reportes' },
   { id: 'actividad', icon: '◷', label: 'Actividad' },
-  { id: 'flujos',    icon: '⚡', label: 'Flujos' },
+  { id: 'flujos',    icon: '⚡', label: 'Flujos ' },
 ]
 
 const NAV_CONFIG = [
