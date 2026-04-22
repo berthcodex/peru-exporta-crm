@@ -23,6 +23,8 @@ const VIEW_TITLES = {
   'flujos':            'Constructor de Flujos',
 }
 
+
+
 export default function App() {
   const [vendedor, setVendedor] = useState(() => {
     try { const s = localStorage.getItem('pe_v'); return s ? JSON.parse(s) : null } catch { return null }
