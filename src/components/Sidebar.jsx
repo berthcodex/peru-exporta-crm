@@ -5,6 +5,7 @@ const NAV = [
   { id: 'leads',     icon: '☰', label: 'Leads' },
   { id: 'reportes',  icon: '◈', label: 'Reportes' },
   { id: 'actividad', icon: '◷', label: 'Actividad' },
+  { id: 'flujos',    icon: '⚡', label: 'Flujos' },
 ]
 
 const NAV_CONFIG = [
@@ -14,7 +15,6 @@ const NAV_CONFIG = [
 
 export default function Sidebar({ vendedor, onLogout, view, onView }) {
   const enConfig = view.startsWith('config')
-
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>PE</div>
