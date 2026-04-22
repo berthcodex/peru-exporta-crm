@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { api } from '../api/index.js'
+import { api } from '../api/index'
 
 // ─── Utilidades ────────────────────────────────────────────────
 const STEP_TYPES = {
