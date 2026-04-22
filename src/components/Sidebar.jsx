@@ -9,7 +9,6 @@ const NAV = [
 ]
 
 const NAV_CONFIG = [
-  { id: 'config-bot',        icon: '🤖', label: 'Mensajes Bot' },
   { id: 'config-vendedores', icon: '👥', label: 'Vendedores' },
 ]
 
@@ -36,7 +35,7 @@ export default function Sidebar({ vendedor, onLogout, view, onView }) {
         <button
           className={`${styles.navBtn} ${enConfig ? styles.navActive : ''}`}
           title="Configuración"
-          onClick={() => onView('config-bot')}
+          onClick={() => onView('config-vendedores')}
         >
           <span className={styles.navIcon}>⚙</span>
           <span className={styles.navLabel}>Config</span>
