@@ -10,15 +10,17 @@ import Reportes from './components/Reportes'
 import Actividad from './components/Actividad'
 import ConfigBot from './components/ConfigBot'
 import ConfigVendedores from './components/ConfigVendedores'
+import FlowBuilder from './pages/FlowBuilder'
 import styles from './App.module.css'
 
 const VIEW_TITLES = {
-  pipeline:          'Pipeline de ventas',
-  leads:             'Todos los leads',
-  reportes:          'Reportes',
-  actividad:         'Actividad reciente',
-  'config-bot':      'Configuración — Mensajes del Bot',
+  pipeline:            'Pipeline de ventas',
+  leads:               'Todos los leads',
+  reportes:            'Reportes',
+  actividad:           'Actividad reciente',
+  'config-bot':        'Configuración — Mensajes del Bot',
   'config-vendedores': 'Configuración — Vendedores',
+  'flujos':            'Constructor de Flujos',
 }
 
 export default function App() {
@@ -88,14 +90,15 @@ export default function App() {
           onLogout={handleLogout} onRefresh={load} loading={loading}
           title={VIEW_TITLES[view]}
         />
-        {view !== 'reportes' && view !== 'actividad' && !view.startsWith('config') && <StatsBar leads={leads} />}
+        {view !== 'reportes' && view !== 'actividad' && !view.startsWith('config') && view !== 'flujos' && <StatsBar leads={leads} />}
         <div className={styles.mainScroll}>
-          {view === 'pipeline'  && <Kanban leads={leads} onAction={handleAction} onMover={handleMover} acting={acting} />}
-          {view === 'leads'     && <LeadsTable leads={leads} onAction={handleAction} acting={acting} />}
-          {view === 'reportes'  && <Reportes leads={leads} />}
-          {view === 'actividad' && <Actividad leads={leads} />}
-          {view === 'config-bot'        && <ConfigBot onToast={showToast} />}
-          {view === 'config-vendedores' && <ConfigVendedores onToast={showToast} />}
+          {view === 'pipeline'           && <Kanban leads={leads} onAction={handleAction} onMover={handleMover} acting={acting} />}
+          {view === 'leads'              && <LeadsTable leads={leads} onAction={handleAction} acting={acting} />}
+          {view === 'reportes'           && <Reportes leads={leads} />}
+          {view === 'actividad'          && <Actividad leads={leads} />}
+          {view === 'config-bot'         && <ConfigBot onToast={showToast} />}
+          {view === 'config-vendedores'  && <ConfigVendedores onToast={showToast} />}
+          {view === 'flujos'             && <FlowBuilder />}
         </div>
       </div>
       {toast && (
