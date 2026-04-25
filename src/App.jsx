@@ -1,7 +1,7 @@
-// src/App.jsx — Sprint 3
-// Fix B2: vendedor viene del login con PIN (no hardcodeado)
-// Fix B3: route guard para config-vendedores
-// Pasa vendorId y role al API para filtrado correcto
+// src/App.jsx — Sprint 4
+// Fix Bug 3: moverLead(leadId, colId) — firma correcta
+// Fix Bug 5: doAction(leadId, accion) — firma correcta
+// Fix Bug 9: getReportes recibe role
 
 import { useState, useEffect, useCallback } from 'react'
 import { getLeads, doAction, moverLead, processLeads } from './config'
@@ -38,14 +38,12 @@ export default function App() {
   const [acting, setActing]   = useState(null)
   const [view, setView]       = useState('pipeline')
 
-  // Sprint 3: leer rol del vendedor logueado
   const isAdmin = vendedor?.role === 'ADMIN' || vendedor?.rol === 'ADMIN'
 
   const load = useCallback(async () => {
     if (!vendedor) return
     setLoading(true)
     try {
-      // Sprint 3: pasar vendorId y role para filtrado en backend
       const data = await getLeads(vendedor.id, vendedor.role || vendedor.rol)
       setLeads(processLeads(Array.isArray(data) ? data : []))
     } catch { showToast('Error al cargar leads', 'error') }
@@ -68,26 +66,32 @@ export default function App() {
     setTimeout(() => setToast(null), 3000)
   }
 
-  async function handleAction(action, phone, fila, extra) {
+  // Fix Bug 5: doAction recibe (leadId, accion) — no vendedor.id
+  async function handleAction(action, phone, leadId) {
     setActing(`${action}-${phone}`)
     try {
-      await doAction(vendedor.id, action, phone, fila, extra)
-      showToast({ material:'🚀 Material enviado', agendar:'📅 Agendado', nocontesto:'📵 Registrado', cerrado:'✅ Cerrado' }[action] || 'Listo')
+      await doAction(leadId, action)
+      showToast({
+        material:   '🚀 Material enviado',
+        agendar:    '📅 Agendado',
+        nocontesto: '📵 Registrado',
+        cerrado:    '✅ Cerrado'
+      }[action] || 'Listo')
       await load()
     } catch { showToast('Error al ejecutar', 'error') }
     finally { setActing(null) }
   }
 
-  async function handleMover(phone, fila, colId) {
-    setLeads(prev => prev.map(l => l.phone === phone ? { ...l, estado: colId } : l))
+  // Fix Bug 3: moverLead(leadId, colId) — no vendedor.id
+  async function handleMover(leadId, colId) {
+    setLeads(prev => prev.map(l => l.id === leadId ? { ...l, estado: colId } : l))
     try {
-      await moverLead(vendedor.id, phone, fila, colId)
+      await moverLead(leadId, colId)
       showToast('Lead movido ✓')
       await load()
     } catch { showToast('Error al mover', 'error'); await load() }
   }
 
-  // Sprint 3: proteger navigate a config-vendedores si no es admin
   function handleView(v) {
     if (v === 'config-vendedores' && !isAdmin) return
     setView(v)
@@ -115,7 +119,6 @@ export default function App() {
           {view === 'reportes'           && <Reportes leads={leads} />}
           {view === 'actividad'          && <Actividad leads={leads} />}
           {view === 'config-bot'         && <ConfigBot onToast={showToast} />}
-          {/* Sprint 3: solo renderizar si es admin (doble protección) */}
           {view === 'config-vendedores'  && isAdmin && <ConfigVendedores onToast={showToast} />}
           {view === 'flujos'             && <FlowBuilder />}
         </div>
